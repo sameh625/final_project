@@ -22,8 +22,6 @@ The app uses Vite defaults, so the dev server will usually run on `http://localh
 
 ### 2. Project structure (modules)
 
-We split the project into four logical modules so each team member can own and push their part:
-
 1. **Core app & routing**
    - Files: `src/App.jsx`, `src/main.jsx`, `src/App.css`, `src/index.css`
    - Responsibilities:
