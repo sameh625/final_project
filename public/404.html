@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      // SPA redirect for GitHub Pages (so refresh on /project/:id doesn't 404).
+      // Based on https://github.com/rafgraph/spa-github-pages
+      ;(function () {
+        var l = window.location
+        var segmentCount = 1 // "/<repo>/..."
+        var path = l.pathname.split('/').slice(0, 1 + segmentCount).join('/')
+        var rest = l.pathname.split('/').slice(1 + segmentCount).join('/')
+        var redirectUrl =
+          path +
+          '/?p=' +
+          encodeURIComponent('/' + rest + (l.search ? l.search : '') + (l.hash ? l.hash : ''))
+        window.location.replace(redirectUrl)
+      })()
+    </script>
+  </head>
+  <body></body>
+</html>
+
+
