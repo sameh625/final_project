@@ -9,7 +9,6 @@ import AddProject from './pages/AddProject.jsx'
 const PROJECTS_API_URL = 'https://69405a7a993d68afba6bd602.mockapi.io/api/v1/project'
 const STORAGE_LOCAL_PROJECTS_KEY = 'taskboard_local_projects'
 const STORAGE_TASKS_KEY = 'taskboard_tasks'
-const STORAGE_IMPORTED_FROM_API_KEY = 'taskboard_imported_from_api_v1'
 
 const safeParseArray = (value, fallback = []) => {
   if (!value) return fallback
@@ -20,7 +19,6 @@ const safeParseArray = (value, fallback = []) => {
     return fallback
   }
 }
-
 const getArrayFromStorage = (key) => {
   if (!window?.localStorage) return []
   const stored = window.localStorage.getItem(key)
@@ -31,7 +29,6 @@ const updateArrayStorage = (key, value) => {
   try {
     window.localStorage.setItem(key, JSON.stringify(value))
   } catch {
-    // ignore storage errors
   }
 }
 
@@ -52,13 +49,11 @@ export function useTaskBoardState() {
   const [tasks, setTasks] = useState([])
   const [isDark, setIsDark] = useState(true)
 
-  // Load from localStorage on first mount
   useEffect(() => {
     setProjects(getArrayFromStorage(STORAGE_LOCAL_PROJECTS_KEY))
     setTasks(getArrayFromStorage(STORAGE_TASKS_KEY))
   }, [])
 
-  // Fetch projects and initial tasks from API
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -69,40 +64,12 @@ export function useTaskBoardState() {
         const data = await response.json()
 
         setProjects((prev) => mergeById(data, prev))
-
-        const alreadyImported = window.localStorage.getItem(STORAGE_IMPORTED_FROM_API_KEY)
-        if (!alreadyImported) {
-          const initialTasksFromApi =
-            data?.flatMap((project) =>
-              (project.Tasks || []).map((task) => ({
-                id: task.id,
-                title: task.title,
-                description: task.desc || '',
-                status: task.status || 'todo',
-                projectId: project.id,
-              })),
-            ) || []
-
-          let mergedTasks = []
-          setTasks((prev) => {
-            mergedTasks = mergeById(initialTasksFromApi, prev)
-            return mergedTasks
-          })
-
-          try {
-            window.localStorage.setItem(STORAGE_TASKS_KEY, JSON.stringify(mergedTasks))
-            window.localStorage.setItem(STORAGE_IMPORTED_FROM_API_KEY, 'true')
-          } catch {
-            // ignore storage errors
-          }
-        }
       } catch (err) {
         setProjectsError(err.message || 'Something went wrong')
       } finally {
         setIsLoadingProjects(false)
       }
     }
-
     fetchProjects()
   }, [])
 
@@ -190,7 +157,6 @@ function App() {
     addProject,
   } = useTaskBoardState()
 
-  // Update body class for light/dark mode background
   useEffect(() => {
     if (isDark) {
       document.body.classList.remove('light-mode')
@@ -204,7 +170,7 @@ function App() {
       <div className={`app-shell ${isDark ? 'theme-dark' : 'theme-light'}`}>
         <nav className="top-nav">
           <Link to="/" className="logo-text">
-            TaskBoard
+            Task Board
           </Link>
           <div className="nav-links">
             <Link to="/">Dashboard</Link>
