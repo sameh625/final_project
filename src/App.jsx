@@ -200,7 +200,7 @@ function App() {
   }, [isDark])
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className={`app-shell ${isDark ? 'theme-dark' : 'theme-light'}`}>
         <nav className="top-nav">
           <Link to="/" className="logo-text">
