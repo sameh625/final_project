@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState, useMemo } from 'react'
+import TaskColumn from '../components/TaskColumn.jsx'
 
 const filterTasksForProject = (tasks, projectId, searchQuery) => {
   const trimmedQuery = searchQuery.trim().toLowerCase()
@@ -38,7 +39,7 @@ function ProjectTasks({ projects, tasks, onUpdateTaskStatus, onDeleteTask }) {
     <div className="page">
       <header className="page-header">
         <h1>{projectTitle}</h1>
-        <Link to="/add-task" className="btn primary">
+        <Link to={`/add-task?projectId=${encodeURIComponent(id)}`} className="btn primary">
           Add Task
         </Link>
       </header>

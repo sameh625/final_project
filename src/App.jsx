@@ -1,10 +1,10 @@
 import './App.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Dashboard from './pages/Dashboard.jsx'
 import ProjectTasks from './pages/ProjectTasks.jsx'
-
-import { useEffect, useState } from 'react'
+import AddTask from './pages/AddTask.jsx'
+import AddProject from './pages/AddProject.jsx'
 
 const PROJECTS_API_URL = 'https://69405a7a993d68afba6bd602.mockapi.io/api/v1/project'
 const STORAGE_LOCAL_PROJECTS_KEY = 'taskboard_local_projects'
@@ -175,9 +175,6 @@ export function useTaskBoardState() {
     addProject,
   }
 }
-
-
-
 
 function App() {
   const {

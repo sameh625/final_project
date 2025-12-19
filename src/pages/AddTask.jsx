@@ -1,12 +1,14 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 
 function AddTask({ projects, onAddTask }) {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const initialProjectId = searchParams.get('projectId') || ''
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [projectId, setProjectId] = useState('')
+  const [projectId, setProjectId] = useState(initialProjectId)
   const [status, setStatus] = useState('todo')
 
   const handleSubmit = (event) => {

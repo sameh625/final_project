@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ProjectCard from '../components/ProjectCard.jsx'
 
 function Dashboard({ projects, tasks, isLoading, error }) {
   const getTasksCount = (projectId) =>
